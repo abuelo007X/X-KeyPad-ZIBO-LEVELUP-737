@@ -1,6 +1,7 @@
 -- BARO
 
 -- Abuelo007X	2022.01.10	ADD: Initial build
+-- enjxp		2022.01.20	FIX: Simulator dataref subscribe to lower memory usage
 
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
 
