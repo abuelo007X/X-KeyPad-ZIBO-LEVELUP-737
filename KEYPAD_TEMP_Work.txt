@@ -24,6 +24,11 @@ Operation using 2 or more datarefs as input : add / substract / divide / multipl
 
 	LUA - First Running - Initial pass / Compare to Memorized value to avoid forwarding useless updates to the sim,
 			however in some case we should update with do_every_frame in order to avoid the ISSUE where the values are not dispkayed on INIT (LOAD)
+	
+	EFB HOME and EFB PAYLOAD PAGE - This Keys in the FLIGHT Unit, in order to work properly, requires to establish a quickview and add as and additional command to the Keys 0 and 9
+			Just click "Add command" on the "Command" section of the key with "Single" action option, and add a "sim/view/quick_look_<key number>"
+			In my case (@abuelo007X) I use the 7 key to move to the EFB so I use "sim/view/quick_look_7"
+			Currently when you press the EFB and PAYLOAD keys, change the view inside the EFB but does not focus the camera to it, unless the command is added as mentioned
 
 
 	| MENTION |
@@ -92,9 +97,15 @@ Don't remove this part
 	| DONE |
 
 
+	2022.02.22 - 2022.03.31
+
+[OK]	- FIX:AB: GLARESHIELD - Update dataref for N2 indicator to match airplane display values: 	laminar/B738/engine/indicators/N2_percent_1
+																									laminar/B738/engine/indicators/N2_percent_2
+[OK]	- UPDATE:AB: FLIGHT - EFB key renamed to "EFB HOME" and PAYLOAD key renamed to "EFB PAYLOAD PAGE"																								
+[OK]	- FIX:AB: EFB and Payload Quickview Issue : Alert users on custom Quickview binding requirement. Added note in the "KEEP IN MIND" section to be included in the release notes
+
 	2022.01.17 - 2022.02.22
 
-- FIX:AB: EFB and Payload Quickview Issue : Alert users on custom Quickview binding requirement
 
 [OK]	- FIX:EN: OVERHEAD - IRS Display wrong state and label when aligned
 [OK]	- ADD:EN: OVERHEAD - IRS ALIGN	Blinking & Status Remaining Align Time :	drf laminar/B738/irs/alignment_left_remain	laminar/B738/irs/alignment_right_remain
