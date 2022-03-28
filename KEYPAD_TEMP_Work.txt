@@ -76,7 +76,7 @@ Operation using 2 or more datarefs as input : add / substract / divide / multipl
 - ADD:EN: STAIRS DEPLOY % Check with LEVELUP
 - ADD:EN: OVERHEAD - IRS Display : add all states
 - FIX:EN: A/P RST Color Issue when IRS aligned - Still to be checked : --> which conditions ???
-- FIX:EN: GLARESHIELD - Check RW HDG (I have added a Ceil expression for rounding up. Probably is the problem you were experiencing as just found out 1 degree mismath in some cases)
+- FIX:EN: GLARESHIELD - Check RW HDG (AB: I have added a Ceil expression for rounding up. Probably is the problem you were experiencing as just found out 1 degree mismath in some cases)
 - FIX:EN: RADIOS - Check MMR/NAV switching
 - ADD:EN: RADIOS - MMR/NAV Digits Displays
 

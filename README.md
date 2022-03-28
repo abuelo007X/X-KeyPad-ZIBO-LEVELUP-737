@@ -6,6 +6,6 @@ The porting to X-KeyPad 1.5 was mainly done by @enjxp (https://forums.x-plane.or
 
 This space has been created to facilitate a collaboration place to update is coding/configuration
 
-Post related to this effort can be viewed at:
+Posts related to this effort can be viewed at:
 - https://forums.x-plane.org/index.php?/files/file/66308-x-keypad-14-virtual-device-configuration-for-zibo-737-and-levelup-737ng/ (This links curerently have the X-KeyPad 1.4 configuration file using .csv instead of new formatting via .json as of X-KeyPad 1.5)
-- https://forums.x-plane.org/index.php?/forums/topic/246917-x-keypad-15-beta/ (This cover post related to the X-KeyPad 1.5 beta development)
+- https://forums.x-plane.org/index.php?/forums/topic/246917-x-keypad-15-beta/ (This cover posts related to the X-KeyPad 1.5 beta development)
