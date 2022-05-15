@@ -4,7 +4,7 @@
 --							-- FIX: dataref subscribe ZIBO_ELEV_TRIM to lower memory usage
 -- Abuelo007X	2022.01.10	-- Ability to change Elev Trim using the X-KeyPad buffer or show the current Trim based on the changes done using the Trim wheel in the airplane
 --								(The Ability to use X-KeyPad buffer requires to enable the "do_every_frame "("Check_Elev_Trim()")" instead of "do_often ("UpdateString_9()")",
---								but right now is efficient and slows trim operation when using the trim wheel)
+--								but right now is inefficient and slows trim operation when using the trim wheel)
 
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
 
@@ -17,7 +17,6 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
     local CONVERTED_TRIM = (ZIBO_ELEV_TRIM*8.5)+8.5
     STR_9[0] =  string.format("%.2f",CONVERTED_TRIM) 
-    -- SHAREDFLOAT_ET[9] = CONVERTED_TRIM * 100
     SHAREDFLOAT_ET[9] = CONVERTED_TRIM
 
     local LAST_SHAREDFLOAT_9 = SHAREDFLOAT_ET[9]
@@ -25,7 +24,6 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	function UpdateString_9()
         CONVERTED_TRIM = (ZIBO_ELEV_TRIM*8.5)+8.5
         STR_9[0] =  string.format("%.2f",CONVERTED_TRIM) 
-        -- SHAREDFLOAT_ET[9] = CONVERTED_TRIM * 100
         SHAREDFLOAT_ET[9] = CONVERTED_TRIM
 	end
 

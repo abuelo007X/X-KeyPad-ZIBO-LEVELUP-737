@@ -7,14 +7,14 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	local STR_10 = dataref_table("SRS/X-KeyPad/custom_string_10") -- For the RUDDER_TRIM
     	
 	-- Simulator datarefs
-	local ZIBO_ELEV_TRIM = dataref_table("sim/flightmodel2/controls/rudder_trim") -- For Rudder_TRIM value
+	local ZIBO_RUDDER_TRIM = dataref_table("sim/flightmodel2/controls/rudder_trim") -- For Rudder_TRIM value
 
-    local CONVERTED_TRIM = (ZIBO_ELEV_TRIM[0]*17)
+    local CONVERTED_TRIM = (ZIBO_RUDDER_TRIM[0]*17)
     STR_10[0] =  string.format("%.2f",CONVERTED_TRIM) 
 
 
 	function UpdateString_10()
-        CONVERTED_TRIM = (ZIBO_ELEV_TRIM[0]*17)
+        CONVERTED_TRIM = (ZIBO_RUDDER_TRIM[0]*17)
         STR_10[0] =  string.format("%.2f",CONVERTED_TRIM) 
 	end
 

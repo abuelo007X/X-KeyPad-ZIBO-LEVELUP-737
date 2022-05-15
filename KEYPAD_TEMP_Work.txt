@@ -37,7 +37,8 @@ Operation using 2 or more datarefs as input : add / substract / divide / multipl
 
 	Thanks @Abuelo007X for having initiated the boost on this project, making it going far ahead and indeed for your tremendous work.
                         I must admit that I had difficulties at first to follow the quickness with which you are coding on adding and fixing parts,
-                        which today, helped me really to gain a different method for coding. This added more additional night time for coding, however I really like where this project is going
+                        which today, helped me really to gain a different method for coding. This added more additional night time for coding,
+						however I really like where this project is going
                         Many Thanks again for your valuable contribution and your help
 
 
@@ -92,8 +93,7 @@ Don't remove this part
 
 	| DONE |
 
-
-	2022.02.22 - 2022.04.30
+	2022.02.22 - 2022.05.30
 
 [OK]	- FIX:AB: GLARESHIELD - Update dataref for N2 indicator to match airplane display values: 	laminar/B738/engine/indicators/N2_percent_1
 																									laminar/B738/engine/indicators/N2_percent_2
@@ -104,6 +104,9 @@ Don't remove this part
 [OK]	- ADD:AB: OVERHEAD - PROBE HEAT color status added based on CAPT and F/O annunciator in each probe
 					laminar/B738/annunciator/fo_pitot_off
 					laminar/B738/annunciator/capt_pitot_off
+[OK]	- FIX:AB: OVERHEAD - IRS ALIGN button condition ajustment for "True" validation changed from "AND 1" to ">=1", as when in "ALIGNED" state was executing the 
+					"False Commands" instead of "True Commnads" to try to turn it off.
+[OK]	- UPDATE:AB: Moving "Rudder Trim" value from FlyWithLua to Formula in X-KeyPad (Using Formula 6) and archiving the original
 
 	2022.01.17 - 2022.02.22
 

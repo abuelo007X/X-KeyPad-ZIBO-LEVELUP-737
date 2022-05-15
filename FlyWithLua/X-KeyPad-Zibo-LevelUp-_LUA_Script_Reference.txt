@@ -1,6 +1,9 @@
 SRS Datarefs USED in Zibo-LevelUp LUA script located in "X-Plane 11/Resources/plugins/FlyWithLua/Scripts/"
+SRS Datarefs USED in Zibo-LevelUp X-Keypad Formulas and/or Expressions
 ----------------------------------------------------------------------------------------------------------
 
+@Abuelo007X		2022.02.05	RUDDER TRIM SharedFloat Refs added
+							RUDDER TRIM Custom_string_10 usage removed
 @Abuelo007X		2022.02.05	WIN HEAT SharedInt Refs added
 							HYD PUMP SharedInt Refs added
 @enjxp			2022.01.24	Formatting
@@ -23,7 +26,6 @@ These are all the custom string definitions
 	SRS/X-KeyPad/custom_string_7		- ENG N1				- STR_7
 	SRS/X-KeyPad/custom_string_8		- ENG N1				- STR_8
 	SRS/X-KeyPad/custom_string_9		- Elev_Trim				- STR_9
-	SRS/X-KeyPad/custom_string_10		- Rudder_Trim			- STR_10
 
 These are all the Shared Int used
 
@@ -56,6 +58,7 @@ These are all the Shared Float used
 
 	SRS/X-KeyPad/SharedFloat[5]			- BARO					- SHAREDFLOAT
 	SRS/X-KeyPad/SharedFloat[9]			- Elev_Trim				- SHAREDFLOAT_ET
+	SRS/X-KeyPad/SharedFloat[10]		- Rudder_Trim			- Used in Formula 6 and "RUDDER TRIM" key
 
 
 APU_EGT_STATE --> SRS/X-KeyPad/SharedInt[0]
