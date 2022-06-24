@@ -1,0 +1,206 @@
+-----------------------------------------------------------------------------------------------------------------------------
+			!!!		Warning		!!!		This file has to be delivered to simmers, together with LUA files
+-----------------------------------------------------------------------------------------------------------------------------
+
+	SRS Datarefs USED in Zibo-LevelUp LUA scripts, as well as in X-Keypad Formulas and/or Expressions
+					LUA scripts target folder is "X-Plane 11/Resources/plugins/FlyWithLua/Scripts/"
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+@enjxp			2022.06.10	Added RECIRC FAN autoconfig for "Boeing 737-600NG" and "Boeing 737-700NG", having only RECIRC FAN on one side versus all other 737 having both L & R RECIRC FAN
+@enjxp			2022.06.07	Added Radios parts and updated IRS
+@enjxp			2022.05.29	Cleaning of unused datarefs
+@enjxp			2022.05.28	Added SI_BAT_STATE SharedInt reference
+@enjxp			2022.05.25	Clarification made on references and locations - Reference table re designed
+							Added IRS_POS & Custom_String_9
+							Standardization of variables name beginning : STR_... = Custom String / SI_... = Shared Int / SF_... = Shared Float / FRML_INT_... = Formula Int / FRML_FLT_... = Formula Float
+@enjxp			2022.05.17	Added HEADING GAP SharedInt Refs
+@Abuelo007X		2022.02.05	Added RUDDER TRIM SharedFloat Refs
+							Removed RUDDER TRIM Custom_string_10 usage
+@Abuelo007X		2022.02.05	Added WIN HEAT SharedInt Refs
+							Added HYD PUMP SharedInt Refs
+@enjxp			2022.01.24	Formatting made on this document
+							Added SIXPACK SharedInt Refs
+@Abuelo007X		2022.01.05	References initially picked from LUA script files
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+These are all the custom string definitions
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			DATAREF					|		VARIABLE NAME			|	DEFINED IN		|	UNIT USAGE		|		KEY					|		FILE NAME (as required)
+			-------					|		-------------			|	----------		|	----------		|		---					|		---------
+	SRS/X-KeyPad/custom_string_0	|	- STR_0						|	- LUA FILE		|	- GLARESHIELD	|	- FUEL_LEFT_TANK_KG		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/custom_string_1	|	- STR_1						|	- LUA FILE		|	- GLARESHIELD	|	- FUEL_CTR_TANK_KG		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/custom_string_2	|	- STR_2						|	- LUA FILE		|	- GLARESHIELD	|	- FUEL_RIGHT_TANK_KG	|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/custom_string_3	|	- STR_3						|	- LUA FILE		|	- OVERHEAD		|	- Interior-Lights		|	X-KeyPad-Zibo-LevelUp-Interior_Lights.lua
+	SRS/X-KeyPad/custom_string_4	|	- STR_4						|	- LUA FILE		|	- RADIOS		|	- MMR1					|	X-KeyPad-Zibo-LevelUp-MMR.lua
+	SRS/X-KeyPad/custom_string_5	|	- STR_5						|	- LUA FILE		|	- RADIOS		|	- MMR2					|	X-KeyPad-Zibo-LevelUp-MMR.lua
+	SRS/X-KeyPad/custom_string_6	|	- STR_6						|	- LUA FILE		|	- GLARESHIELD	|	- BARO					|	X-KeyPad-Zibo-LevelUp-Baro.lua
+	SRS/X-KeyPad/custom_string_7	|	- STR_7						|	- LUA FILE		|	- GLARESHIELD	|	- LEFT ENG N1			|	X-KeyPad-Zibo-LevelUp-ENG N1.lua
+	SRS/X-KeyPad/custom_string_8	|	- STR_8						|	- LUA FILE		|	- GLARESHIELD	|	- RIGHT ENG N1			|	X-KeyPad-Zibo-LevelUp-ENG N1.lua
+	SRS/X-KeyPad/custom_string_9	|	- STR_IRS_POS				|	- LUA FILE		|	- OVERHEAD		|	- IRS DISPLAYS			|	N/A
+	SRS/X-KeyPad/custom_string_10	|	- STR_COM1					|	- FORMULA 7		|	- RADIOS		|	- COM1					|	N/A
+	SRS/X-KeyPad/custom_string_11	|	- STR_COM2					|	- FORMULA 8		|	- RADIOS		|	- COM2					|	N/A
+	SRS/X-KeyPad/custom_string_12	|	- STR_NAV1					|	- FORMULA 9		|	- RADIOS		|	- NAV1					|	N/A
+	SRS/X-KeyPad/custom_string_13	|	- STR_NAV1_STDBY			|	- FORMULA 10	|	- RADIOS		|	- NAV1 STDBY			|	N/A
+	SRS/X-KeyPad/custom_string_14	|	- STR_NAV2					|	- FORMULA 11	|	- RADIOS		|	- NAV2					|	N/A
+	SRS/X-KeyPad/custom_string_15	|	- STR_NAV2_STDBY			|	- FORMULA 12	|	- RADIOS		|	- NAV2 STDBY			|	N/A
+
+These are all the Shared Int used       
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			DATAREF					|		VARIABLE NAME			|	DEFINED IN		|	UNIT USAGE		|		KEY					|		FILE NAME (as required)
+			-------					|		-------------			|	----------		|	----------		|		---					|		---------
+	SRS/X-KeyPad/SharedInt[0]		|	- SI_RECIRC_FAN				|	- LUA FILE		|	- OVERHEAD		|	- RECIRC FAN L			|	X-KeyPad-Zibo-LevelUp-RECIRC_FAN.lua
+	SRS/X-KeyPad/SharedInt[1]		|	- SI_RECIRC_FAN				|	- LUA FILE		|	- OVERHEAD		|	- RECIRC FAN R			|	X-KeyPad-Zibo-LevelUp-RECIRC_FAN.lua
+	SRS/X-KeyPad/SharedInt[3]		|	- SI_HDG_DIFF				|	- LUA FILE		|	- GLARESHIELD	|	- HEADING GAP			|	X-KeyPad-Zibo-LevelUp-HDG_DIFF.lua
+	SRS/X-KeyPad/SharedInt[20]		|	- SI_WIN_HEAT_SIDEL			|	- LUA FILE		|	- OVERHEAD		|	- WIN HEAT SIDE L		|	X-KeyPad-Zibo-LevelUp-Win_Heat.lua
+	SRS/X-KeyPad/SharedInt[21]		|	- SI_WIN_HEAT_FWDL			|	- LUA FILE		|	- OVERHEAD		|	- WIN HEAT FWD L		|	X-KeyPad-Zibo-LevelUp-Win_Heat.lua
+	SRS/X-KeyPad/SharedInt[22]		|	- SI_WIN_HEAT_FWDR			|	- LUA FILE		|	- OVERHEAD		|	- WIN HEAT FWD R		|	X-KeyPad-Zibo-LevelUp-Win_Heat.lua
+	SRS/X-KeyPad/SharedInt[23]		|	- SI_WIN_HEAT_SIDER			|	- LUA FILE		|	- OVERHEAD		|	- WIN HEAT SIDE R		|	X-KeyPad-Zibo-LevelUp-Win_Heat.lua
+	SRS/X-KeyPad/SharedInt[30]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP LEFT 1		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[31]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP LEFT 2		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[32]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP CTR 1		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[33]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP CTR 2		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[34]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP RIGHT 1		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[35]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL PUMP RIGHT 2		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[36]		|	- SI_SIXPACK			 	|	- LUA FILE		|	- GLARESHIELD	|	- CAPT Sixpack 1		|	X-KeyPad-Zibo-LevelUp-Sixpack.lua
+	SRS/X-KeyPad/SharedInt[37]		|	- SI_SIXPACK			 	|	- LUA FILE		|	- GLARESHIELD	|	- CAPT Sixpack 2		|	X-KeyPad-Zibo-LevelUp-Sixpack.lua
+	SRS/X-KeyPad/SharedInt[38]		|	- SI_SIXPACK			 	|	- LUA FILE		|	- GLARESHIELD	|	- FO Sixpack 1			|	X-KeyPad-Zibo-LevelUp-Sixpack.lua
+	SRS/X-KeyPad/SharedInt[39]		|	- SI_SIXPACK			 	|	- LUA FILE		|	- GLARESHIELD	|	- FO Sixpack 2			|	X-KeyPad-Zibo-LevelUp-Sixpack.lua
+	SRS/X-KeyPad/SharedInt[40]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL LEFT TANK		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[41]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL CTR TANK			|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[42]		|	- SI_FUEL					|	- LUA FILE		|	- OVERHEAD		|	- FUEL RIGHT TANK		|	X-KeyPad-Zibo-LevelUp-Fuel.lua
+	SRS/X-KeyPad/SharedInt[43]		|	- SI_HYD_PUMP				|	- LUA FILE		|	- OVERHEAD		|	- HYD PUMP ENG 1		|	X-KeyPad-Zibo-LevelUp-Hyd_Pumps.lua
+	SRS/X-KeyPad/SharedInt[44]		|	- SI_HYD_PUMP				|	- LUA FILE		|	- OVERHEAD		|	- HYD PUMP ENG 2		|	X-KeyPad-Zibo-LevelUp-Hyd_Pumps.lua
+	SRS/X-KeyPad/SharedInt[45]		|	- SI_HYD_PUMP				|	- LUA FILE		|	- OVERHEAD		|	- HYD PUMP ELEC 1		|	X-KeyPad-Zibo-LevelUp-Hyd_Pumps.lua
+	SRS/X-KeyPad/SharedInt[46]		|	- SI_HYD_PUMP				|	- LUA FILE		|	- OVERHEAD		|	- HYD PUMP ELEC 2		|	X-KeyPad-Zibo-LevelUp-Hyd_Pumps.lua
+
+These are all the Shared Float used     
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			DATAREF					|		VARIABLE NAME			|	DEFINED IN		|	UNIT USAGE		|		KEY					|		FILE NAME (as required)
+			-------					|		-------------			|	----------		|	----------		|		---					|		---------
+
+These are all the Formula Int used       
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			DATAREF					|		VARIABLE NAME			|	DEFINED IN		|	UNIT USAGE		|		KEY					|		FILE NAME (as required)
+			-------					|		-------------			|	----------		|	----------		|		---					|		---------
+	SRS/X-KeyPad/FormulaInt[0]		|	- FRML_INT_APU_EGT_STATE	|	- FORMULA 0		|	- OVERHEAD		|	- APU EGT STATE			|	N/A
+	SRS/X-KeyPad/FormulaInt[1]		|	- FRML_INT_AP_RST			|	- FORMULA 1		|	- GLARESHIELD	|	- A/P RST				|	N/A
+	SRS/X-KeyPad/FormulaInt[2]		|	- FRML_INT_AT_RST			|	- FORMULA 2		|	- GLARESHIELD	|	- A/T RST				|	N/A
+	SRS/X-KeyPad/FormulaInt[3]		|	- FRML_INT_L1_DOOR			|	- FORMULA 3		|	- FLIGHT		|	- ENTRY DOOR			|	N/A
+	SRS/X-KeyPad/FormulaInt[6]		|	- FRML_INT_ALIGN_HORZ_STATE	|	- FORMULA 6		|	- GLARESHIELD	|	- ALIGN ANALOG HORZ		|	N/A
+
+These are all the Formula Float used     
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			DATAREF					|		VARIABLE NAME			|	DEFINED IN		|	UNIT USAGE		|		KEY					|		FILE NAME (as required)
+			-------					|		-------------			|	----------		|	----------		|		---					|		---------
+	SRS/X-KeyPad/FormulaFloat[1]	|	- FRML_FLT_ELEV_TRIM		|	- FORMULA 5		|	- GLARESHIELD	|	- Elev_Trim				|	N/A
+	SRS/X-KeyPad/FormulaFloat[2]	|	- FRML_FLT_RUD_TRIM			|	- FORMULA 4		|	- GLARESHIELD	|	- Rudder_Trim			|	N/A
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+FORMULA Construction sample reference :
+---------------------------------------
+
+APU_EGT_STATE --> SRS/X-KeyPad/SharedInt[0]
+
+	Variable 0 : APU_GEN_OFF_BUS	<-- laminar/B738/annunciator/apu_gen_off_bus
+	Variable 1 : APU_TEMP			<-- laminar/B738/electrical/apu_temp
+    Variable 2 : APU_GEN_ON         <-- sim/cockpit/electrical/generator_apu_on
+
+    Variable 0 : APU_GEN_OFF_BUS    which receive value from the dataref "laminar/B738/annunciator/apu_gen_off_bus"
+    Variable 1 : APU_TEMP                     which receive value from the dataref "laminar/B738/electrical/apu_temp"
+    Variable 2 : APU_GEN_ON                     which receive value from the dataref "sim/cockpit/electrical/generator_apu_on"
+
+
+IF statement reference :
+------------------------
+if( APU_GEN_OFF_BUS = 0 , if(APU_TEMP < 8, 1, if(APU_TEMP = 8, 2,3)) , if(APU_TEMP > 8,4,0) )
+
+IF Statement reference :		IF( condition	,		case1		,		case2 )
+
+														if true				if false 
+
+Formula Expression (deployed) :
+-------------------------------
+
+	if(APU_GEN_OFF_BUS = 0
+	,
+	if(APU_TEMP = 0,1
+	,
+	if(FLOOR(APU_TEMP * 8) < 30,2
+	,
+	if(APU_GEN_ON = 1,4,3)))
+	,
+	if(FLOOR(APU_TEMP * 8) > 380,5,0))
+
+Formula Expression (inline) :
+-----------------------------
+
+	if(APU_GEN_OFF_BUS = 0,if(APU_TEMP = 0,1,if(FLOOR(APU_TEMP * 8) = 12,2,if(APU_GEN_ON = 1,4,3))),if(FLOOR(APU_TEMP * 8) > 380,5,0))
+
+
+This formula expression says :
+==============================
+
+1 - IF APU_GEN_OFF_BUS is available
+		APU_GEN_OFF_BUS = 0
+										-->	if(APU_GEN_OFF_BUS = 0
+
+1 - THEN
+										-->	,
+
+		2 - IF the APU Temperature = 0, the APU is OFF, THEN the result = 1
+			APU_TEMP = 0
+			APU OFF						-->	if(APU_TEMP = 0,1
+	
+		2 - ELSE
+										-->	,
+		
+				3 - IF the APU Temperature reach a stable value less than 30, THEN the result = 2
+					FLOOR(APU_TEMP * 8) < 30   (FLOOR gives the WHOLE part of a float value)
+					APU ON				-->	if(FLOOR(APU_TEMP * 8) < 30,2
+				
+				3 - ELSE
+										-->	,
+				
+					4 - IF the APU GEN is ON, THEN the result = 4
+						APU_GEN_ON = 1
+						APU GEN ON		-->	if(APU_GEN_ON = 1,4
+					
+					4 - ELSE
+										-->	,
+					
+						The APU Temperature is rising, the result = 3
+						APU_GEN_ON = 0
+						APU EGT rising	-->	,3)))
+
+1 - ELSE (APU_GEN_OFF_BUS is available)
+										-->	,
+
+	5 - IF the APU Temperature is greater than 380, the APU_GEN_OFF_BUS is available, THEN the result is 5
+		FLOOR(APU_TEMP * 8) > 380
+		APU GEN AVAIL					-->	if(FLOOR(APU_TEMP * 8) > 380,5
+
+	5 - ELSE
+										-->	,
+	
+1 - The result = 0
+	APU FULL OFF						-->	,0))
+
+		
+		
+		
+
+
+
+

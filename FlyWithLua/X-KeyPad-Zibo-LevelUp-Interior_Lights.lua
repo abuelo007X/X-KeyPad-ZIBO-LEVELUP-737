@@ -1,16 +1,25 @@
 -- COMMANDS INTERIOR LIGHTS
 
--- enjxp		2022.01.26	Reworked the whole structure
---							Added Intermediate bright levels
--- enjxp		2022.01.24	Added DIM Lights feature
---							Cleaning script
+-- enjxp		2022.06.06	-- Fixed wrong function name call
+-- enjxp		2022.01.26	-- Reworked the whole structure
+--							-- Added Intermediate bright levels
+-- enjxp		2022.01.24	-- Added DIM Lights feature
+--							-- Cleaning script
+-- Magicnorm	2020.09		-- Initial Configuration
+
+local LOG_ID = "FWL 4 XKP B737 VD : INTERIOR LIGHTS : "
+
+logMsg(LOG_ID .. "LUA | START")
 
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
 
-	PANEL_BRIGHT = dataref_table("laminar/B738/electric/panel_brightness")			-- PANEL LIGHTS
-	GENERIC_LIGHT = dataref_table("sim/cockpit2/switches/generic_lights_switch")	-- GENERIC LIGHTS
-	GENERIC_BRIGHT = dataref_table("sim/cockpit2/switches/generic_lights_switch")	-- GENERIC BRIGHT
-	local STR_3 = dataref_table("SRS/X-KeyPad/custom_string_3")						-- TRANSMIT SET nbr to Virtual Device
+	logMsg(LOG_ID .. "Aircraft Handled | PLANE_DESCRIP = " .. PLANE_DESCRIP)
+
+	local PANEL_BRIGHT = dataref_table("laminar/B738/electric/panel_brightness")		-- PANEL LIGHTS
+	local GENERIC_LIGHT = dataref_table("laminar/B738/electric/generic_brightness")		-- GENERIC LIGHTS
+	local GENERIC_BRIGHT = dataref_table("laminar/B738/lights_sw")	-- GENERIC BRIGHT
+	-- local GENERIC_BRIGHT = dataref_table("sim/cockpit2/switches/generic_lights_switch")	-- GENERIC BRIGHT
+	local STR_3 = dataref_table("SRS/X-KeyPad/custom_string_3")							-- TRANSMIT SET nbr to Virtual Device
 	local create_light_state = create_dataref_table("zibo/SRSlights_state", "Data")
 	local light_state = dataref_table("zibo/SRSlights_state")
 
@@ -84,7 +93,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		[9] = function() SET_STR = "FULL" end
 	}
 
-	function send_set_nbr()
+	function pr_calc_interior_lights()
 		-- STR_3[0] = SET_STR
 		STR_3[0] = SET_STR
 		if LSET_NUM ~= LSET_SAVE then
@@ -102,7 +111,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- OFF
 	function Lights_Off()
 		LSET_NUM = 0
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Off()
 		PANEL_BRIGHT[0]		= SET_OFF		-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_OFF		-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -122,7 +131,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- DIM
 	function Lights_Set0()
 		LSET_NUM = 1
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Off()
 		PANEL_BRIGHT[0]		= SET_0			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_0			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -142,7 +151,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #1
 	function Lights_Set1()
 		LSET_NUM = 2
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Off()
 		PANEL_BRIGHT[0]		= SET_1			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_1			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -162,7 +171,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #2
 	function Lights_Set2()
 		LSET_NUM = 3
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Dim()
 		PANEL_BRIGHT[0]		= SET_2			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_2			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -182,7 +191,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #3
 	function Lights_Set3()
 		LSET_NUM = 4
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Dim()
 		PANEL_BRIGHT[0]		= SET_3			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_3			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -202,7 +211,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #4
 	function Lights_Set4()
 		LSET_NUM = 5
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Bright()
 		PANEL_BRIGHT[0]		= SET_4			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_4			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -222,7 +231,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #5
 	function Lights_Set5()
 		LSET_NUM = 6
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Bright()
 		PANEL_BRIGHT[0]		= SET_5			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_5			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -242,7 +251,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #6
 	function Lights_Set6()
 		LSET_NUM = 7
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Bright()
 		PANEL_BRIGHT[0]		= SET_6			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_6			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -262,7 +271,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Set #7
 	function Lights_Set7()
 		LSET_NUM = 8
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Bright()
 		PANEL_BRIGHT[0]		= SET_7			-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_7			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -281,8 +290,11 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 	-- FULLON
 	function Lights_FullOn()
+
+	logMsg(LOG_ID .. "DEC | LSET_NUM = " .. LSET_NUM)
+
 		LSET_NUM = 9
-		send_set_nbr()
+		pr_calc_interior_lights()
 		Dome_Bright()
 		PANEL_BRIGHT[0]		= SET_FULL_ON	-- CAPTAIN MAIN PANEL BRIGTHNESS
 		PANEL_BRIGHT[1]		= SET_FULL_ON	-- FIRST OFFICER MAIN PANEL BRIGTHNESS
@@ -298,17 +310,6 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		GENERIC_LIGHT[11]	= SET_FULL_ON	-- FIRST OFFICER CHART LIGHT
 		GENERIC_LIGHT[12]	= SET_FULL_ON	-- CIRCUIT BREAKER FLOOD
 	end
-
-	create_command("zibo/int_lights_off",	"L1 - Interior lights ALL OFF","Lights_Off()","","")	-- OFF
-	create_command("zibo/int_lights_Set0",	"L2 - Interior lights ALL Set0","Lights_Set0()","","")	-- Set0
-	create_command("zibo/int_lights_Set1",	"L3 - Interior lights ALL Set1","Lights_Set1()","","")	-- Set1
-	create_command("zibo/int_lights_Set2",	"L4 - Interior lights ALL Set2","Lights_Set2()","","")	-- Set2
-	create_command("zibo/int_lights_Set3",	"L5 - Interior lights ALL Set3","Lights_Set3()","","")	-- Set3
-	create_command("zibo/int_lights_Set4",	"L6 - Interior lights ALL Set4","Lights_Set4()","","")	-- Set4
-	create_command("zibo/int_lights_Set5",	"L7 - Interior lights ALL Set5","Lights_Set5()","","")	-- Set5
-	create_command("zibo/int_lights_Set6",	"L8 - Interior lights ALL Set6","Lights_Set6()","","")	-- Set6
-	create_command("zibo/int_lights_Set7",	"L9 - Interior lights ALL Set7","Lights_Set7()","","")	-- Set7
-	create_command("zibo/int_lights_on",	"LA - Interior lights ALL ON","Lights_FullOn()","","")	-- FULL ON
 
 	local switch_bright = {
 		[0] = function() Lights_Off() end,
@@ -338,6 +339,9 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		if LSET_NUM < 0 then
 			LSET_NUM = 0
 		end
+
+	logMsg(LOG_ID .. "DEC | LSET_NUM = " .. LSET_NUM)
+
 		Lights_Set()
 	end
 
@@ -347,12 +351,26 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		if LSET_NUM > 9 then
 			LSET_NUM = 9
 		end
+
+	logMsg(LOG_ID .. "INC | LSET_NUM = " .. LSET_NUM)
+
 		Lights_Set()
 	end
 
-	create_command("zibo/int_lights_dec",	"L_dec - Interior lights Decrease","Lights_Decrease()","","")	-- Decrease Light
-	create_command("zibo/int_lights_inc",	"L_inc - Interior lights Increase","Lights_Increase()","","")	-- Increase Light
+	create_command("zibo/int_bright_off",	"L1 - Interior lights ALL OFF","Lights_Off()","","")	-- OFF
+	create_command("zibo/int_bright_Set0",	"L2 - Interior lights ALL Set0","Lights_Set0()","","")	-- Set0
+	create_command("zibo/int_bright_Set1",	"L3 - Interior lights ALL Set1","Lights_Set1()","","")	-- Set1
+	create_command("zibo/int_bright_Set2",	"L4 - Interior lights ALL Set2","Lights_Set2()","","")	-- Set2
+	create_command("zibo/int_bright_Set3",	"L5 - Interior lights ALL Set3","Lights_Set3()","","")	-- Set3
+	create_command("zibo/int_bright_Set4",	"L6 - Interior lights ALL Set4","Lights_Set4()","","")	-- Set4
+	create_command("zibo/int_bright_Set5",	"L7 - Interior lights ALL Set5","Lights_Set5()","","")	-- Set5
+	create_command("zibo/int_bright_Set6",	"L8 - Interior lights ALL Set6","Lights_Set6()","","")	-- Set6
+	create_command("zibo/int_bright_Set7",	"L9 - Interior lights ALL Set7","Lights_Set7()","","")	-- Set7
+	create_command("zibo/int_bright_on",	"LA - Interior lights ALL ON","Lights_FullOn()","","")	-- FULL ON
 
-	do_every_frame ("send_set_nbr()")
+	create_command("zibo/int_bright_dec",	"L_dec - Interior lights Decrease","Lights_Decrease()","","")	-- Decrease Light
+	create_command("zibo/int_bright_inc",	"L_inc - Interior lights Increase","Lights_Increase()","","")	-- Increase Light
+
+	do_every_frame("pr_calc_interior_lights()")
 
 end

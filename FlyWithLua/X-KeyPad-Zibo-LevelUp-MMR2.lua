@@ -1,18 +1,25 @@
 -- MMR 2 FO side
--- enjxp 	MMR UNIT #2 Separation made from original single MMR lua file - INPUT XKEYPAD BUFFER INTO MMR #2
+
+-- enjxp		2021.07.05 	-- MMR UNIT #2 Separation made from original single MMR lua file - INPUT XKEYPAD BUFFER INTO MMR #2
+
+local LOG_ID = "FWL 4 XKP B737 VD : MMR2 : "
+
+logMsg(LOG_ID .. "LUA | START")
 
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
 
+	logMsg(LOG_ID .. "Aircraft Handled | PLANE_DESCRIP = " .. PLANE_DESCRIP)
+
 	function Input_MMR2()
 
-		dataref("XKEYPAD_BUFFER","SRS/X-KeyPad/numeric_buffer","readonly")
+		local XKEYPAD_BUFFER = dataref-table("SRS/X-KeyPad/numeric_buffer")
 
 		-- POSITION IN STRING
 		POS = 1
 		
 		while POS < 6 do
 		
-			DIGIT = string.sub(XKEYPAD_BUFFER, POS, POS)
+			DIGIT = string.sub(XKEYPAD_BUFFER[0], POS, POS)
 
 			if DIGIT == "0" then
 				command_once("laminar/B738/push_button/mmr2_0")

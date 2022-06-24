@@ -1,7 +1,15 @@
 -- COMMANDS FOR MFD
 
+-- Magicnorm	2020.09		-- Initial Configuration
+
+local LOG_ID = "FWL 4 XKP B737 VD : MFD : "
+
+logMsg(LOG_ID .. "LUA | START")
+
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
-	
+
+	logMsg(LOG_ID .. "Aircraft Handled | PLANE_DESCRIP = " .. PLANE_DESCRIP)
+
 	-- ASSIGN DEFAULT VALUES
 	ENGSYS = 1
 
