@@ -1,0 +1,313 @@
+Warning ! Here, through all actions, authors are identified like this :
+
+@Abuelo007X = AB
+@enjxp = EN
+...
+
+
+	| FEATURE REQUESTS TO Stick & Rudder Studios |
+
+
+OPERATORS : OR added to the existing
+Operation using 2 or more datarefs as input : add / substract / divide / multiply
+
+[OK]	- Ability to change ACTIVE Unit tab label color
+[OK]	- Extract part of any dataref string from both Key Label and Formula Expression
+[OK]	- More SharedString are required (currently limited to 10)
+[OK]	- Font scaling
+[OK]	- ADD MULTIPLE/ADDITIONAL Combined comparison lines from different datarefs for KEYS Color or FONT Color
+[OK]	- Values in a range
+
+
+	| KEEP IN MIND |
+
+	EN: PACKAGE FORWARDING : Before any package forwarding, either to the current dev team or to Mark Cellis,
+								any change from one of each X-Keys_b738_4k.json or X-Keys_b738.json file, should be replicated to the other,
+								in order to avoid any confusion while handled by any other memeber of the dev team,
+								or by Mark Cellis on receiving the package for validation
+
+	EN: TXT File ADDED in the ZIP file root folder, to track the current ZIP Keypad set release number,
+						in order to properly follow each package submission
+
+		- !!!!! Currently the naming is as follow !!!!! : "version_1.0.8.25_Beta.txt" and will become "version_1.0.8.txt" on final release
+		- The main release number here is "1.0.8" and each intermediate Beta is increased by the last number, here ".25" with "_Beta" added,
+			before any final release, where these specific infos will be symply suppressed in the filename
+			The increment is made just on receiving a duplicated forwarded, or on a duplicated downloaded package (before forwarding any package)
+			
+			Beta's increment:
+			-----------------
+			version_1.0.8.25_Beta.txt
+			version_1.0.8.26_Beta.txt
+			version_1.0.8.27_Beta.txt
+			...
+			...
+			version_1.0.8.1729_Beta.txt
+			...
+			
+			Final on releasing :
+			--------------------
+			version_1.0.8.txt
+			
+		- The folder should be named the same manner at the end, like this : "X-KeyPad-ZIBO-LEVELUP-737_1.0.8.25_Beta"
+
+	EN: LUA - First Running - Initial pass / Compare to Memorized value to avoid forwarding useless updates to the sim,
+			however in some case we should update with do_every_frame in order to avoid the ISSUE where the values are not dispkayed on INIT (LOAD)
+	
+	AB: EFB HOME and EFB PAYLOAD PAGE - These Keys in the FLIGHT Unit, requires to establish a quickview command and add as an additional command to the Keys 0 and 9
+			Just click "Add command" on the "Command" section of the key with "Single" action option, and add a "sim/view/quick_look_<key number>" if using x-plane views
+			In my case (@abuelo007X) I use the 7 key to move to the EFB so I use "sim/view/quick_look_7", so is the one configured in this version
+			Currently when you press the EFB and PAYLOAD keys, change the view inside the EFB and by default using quick_look_7, but may not work in your case.
+			Just change with the corresponding quickview command to the tablet that you use, using standard x-plane or any other mod
+
+
+	| MENTION |
+
+
+	EN: Thanks @Abuelo007X for having initiated the boost on this project, making it going far ahead and indeed for your tremendous work.
+                        I must admit that I had difficulties at first to follow the quickness with which you are coding on adding and fixing parts,
+                        which today, helped me really to gain a different method for coding. This added more additional night time for coding,
+						however I really like where this project was going
+                        Many Thanks again for your valuable contribution and your help
+
+
+	| ISSUES |
+
+
+HDG DIFF : rework formula to handle both HDG Mode or FMS Mode
+AIRSTAIRS : behavior with OPEN ENTRY
+
+
+	| 2_BE_ADDED |
+
+- ADD: SPEEDBRAKE State
+- ADD: MAGVAR
+- ADD: LANDING GEARS
+- ADD: VIEWS
+- ADD: SAVED FLIGHTS
+- ADD: CAPT or FO Side on EFIS Control
+- ADD: ORANGE BLUE RED Colors when needed
+- ADD: CHRONO	Value of running time
+- ADD: LED vs HALOGEN LANDING LIGHTS		drf laminar/B738/led_lights
+- ADD: PULSE LIGHTS							drf laminar/B738/effects/pulse_lite
+- ADD: LONG LED STROBES						drf laminar/B738/effects/long_led_strobes
+- ADD: Annunciators Light Test
+- ADD: EFIS CTRL INFO Status
+		laminar/B738/EFIS/EFIS_wx_on
+		laminar/B738/EFIS/EFIS_vor_on
+		laminar/B738/EFIS/EFIS_fix_on
+		laminar/B738/EFIS/EFIS_airport_on
+		laminar/B738/EFIS_control/capt/push_button/data		-- no resulting action apart on PLN MODE
+		laminar/B738/EFIS_control/capt/push_button/pos		-- no resulting action
+		laminar/B738/EFIS/EFIS_wxr_terr
+
+-----------------------------------------------------------------------------------------------------
+
+	| CURRENT WIP |
+
+- FIX:EN: GLARESHIELD - HDG DIFF to take in account the autopilot heading and magvar,
+									either coming from MCP heading set by MCP input dial or from FMC Heading displayed on LSKL1 : FORMULA edited
+
+
+- FIX:EN: FLIGHT - OPEN ENTRY DOOR & SET STAIR - Reworking
+- ADD:EN: STAIRS DEPLOY % Check with LEVELUP
+- FIX:EN: A/P RST Color Issue when IRS aligned - Still to be checked : --> which conditions ???
+- FIX:EN: RADIOS - Check MMR/NAV switching
+
+========================================================================================================================================================================================
+	Below we find "OK" Template between lines to copy and placed in front of ended action from the CURRENT WIP section above,
+	then move the whole line on top of the DONE section
+	
+	!!! Don't remove this part !!!
+
+---------------
+[OK]	- 
+---------------
+
+========================================================================================================================================================================================
+
+
+	| DONE |
+
+
+	1.0.8.04 - Until 2022.06.15
+
+[OK]	- ADD:EN: IRS LUA File : Added IRS SET POS automatic set when displayed
+[OK]	- FIX:EN: INTERIOR LIGHTS LUA File : fixed dataref issue with LevelUP
+
+	1.0.8.03 - Until 2022.06.10
+
+[OK]	- ADD:EN: OVERHEAD - RECIRC FAN : Automatic Aircraft check to handle specific situation for the 737-600 and 737-700, with only one RECIRC FAN on the Right of TRIM AIR Key
+											add autoconfig for "Boeing 737-600NG" and "Boeing 737-700NG",
+											having only RECIRC FAN on one side, versus all other 737 having both L & R RECIRC FAN
+
+	1.0.8.02 - Until 2022.06.07
+
+[OK]	- ADD:EN: OVERHEAD - IRS Display : add all states
+[OK]	- ADD:EN: RADIOS - MMR/NAV Digits Displays
+
+	1.0.8 FIX #1 - Until 2022.06.06
+
+[OK]	- FIX:EN: ELEV TRIM Key : wrong dataref source
+[OK]	- FIX:EN: INTERIOR LIGHTS : wrong function name call
+
+	1.0.8 - Until 2022.06.03
+
+[OK]	- FIX:EN: ALL LUA Files : convert dataref statement to dataref_table only, due to many issues around FlyWithLua handling
+[OK]	- PARK BRAKE : to CHECK
+[OK]	- FIX:EN: OVERHEAD - BATTERY reworking due to new behavior starting from 3_53_Full
+[OK]	- FIX:EN: OVERHEAD - BAT STATE switched from FORMULA to LUA file
+[OK]	- FIX:EN: GLARESHIELD - FORMULA APU EGT fixed color when APU_TEMP < 25
+[OK]	- FIX:EN: OVERHEAD - GLARESHIELD - SHIFT key label changed to "NUMPAD SHIFT TOGGLE"
+[OK]	- ADD:EN: FLIGHT - EFB Toggle : laminar/B738/tab/toggle & laminar/B738/tab/fo_toggle commands | using laminar/B738/tab/static & laminar/B738/tab/fo_static datarefs
+[OK]	- ADD:EN: REFERENCE FILE - Clarification made on references and locations - Reference table re designed in "X-Plane 11/Resources/plugins/FlyWithLua/Scripts/X-KeyPad-Zibo-LevelUp-_LUA_Script_Reference.txt" file
+[OK]	- FIX:EN: REFERENCE FILE & CONFIGURATION - Standardization of variables name beginning : STR_... = Custom String / SI_... = Shared Int / SF_... = Shared Float
+[OK]	- ADD:EN: FLIGHT - SERVICE PLANE to trigger related X-Plane services
+[OK]	- FIX:EN: APU EGT - should be on red fixed color under 8~16°C --> fixed without any action, in the same time the BATTERY Behavior was fixed
+[OK]	- FIX:EN: OVERHEAD - COCKPIT LIGHTS reworking due to new behavior starting from 3_53_Full
+[OK]	- FIX:EN: GLARESHIELD - PARKING BRAKE : Change the True Command to allow automatic Chocks removing if already set,
+			as the ZiboMod EFB SETTINGS AND FEATURES / HARDWARE / PARKBRAKE REMOVE CHOCKS set to ON don't perform the expected action unless we use sim/flight_controls/brakes_max
+			could be updated to this in the future, though it works properly as configurud for now
+[OK]	- FIX:AB: GLARESHIELD - Update dataref for N2 indicator to match airplane display values: 	laminar/B738/engine/indicators/N2_percent_1
+																									laminar/B738/engine/indicators/N2_percent_2
+[OK]	- UPD:AB: FLIGHT - EFB key renamed to "EFB HOME" and PAYLOAD key renamed to "EFB PAYLOAD PAGE"																								
+[OK]	- FIX:AB: FLIGHT - EFB and Payload Quickview Issue : Alert users on custom Quickview binding requirement. Added 
+					Added note in the "KEEP IN MIND" section to be included in the release notes
+[OK]	- FIX:EN: GLARESHIELD - Check RW HDG - Preliminary solution rounding up, as value was in some cases just 1 degree mismatch. Waiting feedback from EN
+								(AB: I have added a Ceil expression for rounding up: 
+								Probably it is the problem you were experiencing as just found out 1 degree mismath in some cases)
+[OK]	- ADD:AB: OVERHEAD - PROBE HEAT color status added based on CAPT and F/O annunciator in each probe
+					laminar/B738/annunciator/fo_pitot_off
+					laminar/B738/annunciator/capt_pitot_off
+[OK]	- FIX:AB: OVERHEAD - IRS ALIGN button condition ajustment for "True" validation changed from "AND 1" to ">=1", as when in "ALIGNED" state was executing the 
+					"False Commands" instead of "True Commnads" to try to turn it off.
+[OK]	- UPD:AB: Moving "Rudder Trim" value from FlyWithLua to Formula in X-KeyPad (Using Formula 6) and archiving the original
+
+	Until 2022.02.22
+
+[OK]	- FIX:EN: OVERHEAD - IRS Display wrong state and label when aligned
+[OK]	- ADD:EN: OVERHEAD - IRS ALIGN	Blinking & Status Remaining Align Time :	drf laminar/B738/irs/alignment_left_remain	laminar/B738/irs/alignment_right_remain
+[OK]	- FIX:EN: GLARESHIELD - FUEL QTY - Colors reworking with substring extract
+[OK]	- FIX:EN: GLARESHIELD - DEST RW HDG changed dataref
+[OK]	- FIX:EN: CONFIGURATION Reworked for OVERLAY Mode since 1.5B26
+[OK]	- FIX:EN: LUA FUEL - Updated Fuel QTY value format to allow proper substring in Key Editor Label tab
+[OK]	- FIX:EN: GLARESHIELD - CURRENT FLIGHT DATA - Color changed
+[OK]	- FIX:EN: A/P RST A/T RST FMC RST Lights in Test mode	RED & AMBER states : build a solution with LUA relying on Z_2D_XP - "MIP CAPT DISC ANN. & LIGHTS TEST Panel"
+[OK]	- ADD:EN: EQUIP COOLING SUPPLY & EXHAUST status
+[OK]	- FIX:EN: PARKING BRAKE
+[OK]	- ADD:EN: ANALOG HORIZON trigger horizontal	cmd laminar/B738/button/allign_analog_horiz
+													drf laminar/B738/button/allign_analog_horiz_pos
+[OK]	- ADD:EN: ALT HORN CUTOUT ? laminar/B738/alert/alt_horn_cutout
+[OK]	- ADD:EN: Add Numpad on every Unit
+[OK]	- ADD:EN: HDG vs BRG diff
+[OK]	- FIX:AB: SingleUnit font size issue
+[OK]	- ADD:EN: VOICE RECORD - ALT HORN CUTOUT - TRIP RESET - ATTEND - GROUND CALL - EQUIP COOLING (SUPPLY/EXHAUST)
+[OK]	- FIX:AB: BARO input no more working
+[OK]	- FIX:EN: Chrono START/STOP Issue
+[OK]	- FIX:EN: IRS ALIGN wrong behavior
+[OK]	- FIX:EN: FUEL CTR PUMP Incorrect ON
+[OK]	- FIX:EN: HYD PUMP ENG 1 & ENG 2 Color Issue - shoudn't blink on BAT ON : rather steady Red#533333
+[OK]	- FIX:EN: DOORS Labels centering, length and colors behaviors
+[OK]	- FIX:EN: EMERGENCY EXIT : 3 positions switch ADD ON Position
+[OK]	- FIX:EN: GLARESHIELD all CURR. Flight Data colors
+[OK]	- FIX:EN: FUEL LUA cleaned
+[OK]	- FIX:EN: Numpad font size issue
+[OK]	- FIX:AB: HYD PUMP Fixed behavior
+[OK]	- FIX:AB: Recent change on Labels should be aligned CENTER by being splitted in more lines
+[OK]	- FIX:AB: Keys Status Labels from dataref should be included between Arrow Keys if present
+[OK]	- FIX:EN: PARKING BREAK BLINKING while in flight
+[OK]	- FIX:EN: WIND DIR & SPD display Labels
+[OK]	- FIX:EN: CURR AOA - wrong dataref
+[OK]	- FIX:EN: CURR V/S - wrong display
+[OK]	- ADD:AB: OPEN ENTRY + STAIRS Combination
+[OK]	- FIX:AB: Window Heat Status and Color : Overheat and Green ON
+[OK]	- FIX:AB: HYD PUMP Color Issue
+
+	2021.11.15 - 2022.01.17
+
+[OK]	- ADD:AB: Current Altitude
+[OK]	- ADD:AB: Current Heading
+[OK]	- ADD:AB: Current IAS
+[OK]	- ADD:AB: Elev_Trim + X-KeyPad-Zibo-Elev_Trim.lua
+[OK]	- ADD:AB: Rudder_Trim + X-KeyPad-Zibo-Rudder_Trim.lua
+[OK]	- ADD:AB: FUEL PMP: Added additional states in Red color using Battery, Fuel quantity and Overhead Annunciators for Fuel Pump + X-KeyPad-Zibo-Overhead_Red.lua
+[OK]	- ADD:AB: FUEL PMP: Changed to be more accurate in different scenarios and adding "NO FUEL" when no full available in the corresponding tank (includes FlyWithLua script changes - X-KeyPad-Zibo-Overhead_Red.lua)
+				-- enjxp : update made to add status and color changing
+[OK]	- ADD:AB: MCP SPEED: Changed to show IAS or MACH depending on current MCP speed view status using DataRef sim/cockpit/autopilot/airspeed_is_mach
+[OK]	- ADD:AB: ENTRY DOOR: Updated value validation to allow 3 states "OPEN ENTRY DOOR", "IN PROGRESS", "CLOSE ENTRY DOOR"
+[OK]	- ADD:AB: CARGO DOOR: Updated value validation to allow 3 states "OPEN CARGO DOOR", "IN PROGRESS", "CLOSE CARGO DOOR"
+[OK]	- FIX:AB: CARGO DOORS updated
+[OK]	- FIX:AB: ENG PMP & HYD PMP: Changing Engine and Electric Hydro Pump color based on annunciator and switch status (includes FlyWithLua script changes - X-KeyPad-Zibo-Overhead_Red.lua)
+[OK]	- FIX:AB: GPU SW: updated with "laminar/B738/gpu_toggle" command
+[OK]	- FIX:AB: CHOCKS and START/END LEG updated
+[OK]	- FIX:AB: ENG GAUGES: IDLE Value replaced by N1 + X-KeyPad-Zibo-ENG N1.lua		-- enjxp : I've added a blank (space between "N2" and value to avoid reading issue when reaching 100 and up)
+[OK]	- FIX:AB: NAV 1 TFR & NAV 2 TFR: Added "new line" after the active mode name to show it better on screen
+[OK]	- FIX:AB: "SEAT BELTS" for some values was to big. Changed to default font type size to standardize with the rest
+				-- enjxp : added line feed between SEAT and BELTS, replaced ":" by ";" for font colors
+[OK]	- FIX:AB: Changed size for N2 and N1 as moving out of position
+				-- enjxp : updated font num to (23) : increase from Fixed Width 15 to Fixed Width 20
+
+	2022.01.20 - 2022.02.03
+
+[OK]	- FIX:EN: Absolute Value - FIXED with NEW X-Keypad Configurator and Formula Expression - [NO FIX without LUA] (ABS not available in CSV) FIX: COURSE in Negative with 001 value
+[OK]	- FIX:EN: APU EGT
+[OK]	- FIX:EN: MONITOR DISPLAY ISSUE : with Different Resolution ... ex: 1920 x 1080 vs 2560 x 1440
+[OK]	- FIX:EN: COCKPIT LIGHTS state displays ISSUE on INIT
+[OK]	- FIX:EN: FUEL TANKS QTY displays ISSUE on INIT
+[OK]	- FIX:EN: Whole LAYOUT Reworking to best fit on HD and 2K monitors. Now splited into 4 different units handled by the same Virtual Device
+[OK]	- FIX:EN: DISENGAGE reworked on one line across two keys
+[OK]	- ADD:EN: CURR V/S
+[OK]	- ADD:EN: CURR AOA
+[OK]	- ADD:EN: WIND SPD & HDG
+[OK]	- ADD:EN: INTERIOR LIGHTS : ADD Dimmed position with 7 positions switch
+[OK]	- ADD:EN: LBS / KG switching on FUEL QTY
+[OK]	- ADD:EN: WIPER: SPLIT L/R
+[OK]	- ADD:EN: RUNWAY TURN: SPLIT L/R
+[OK]	- ADD:EN: IGNITERS Split N1/N2 reworking
+[OK]	- ADD:EN: WIN HEAT Status Green
+[OK]	- ADD:EN: & FIX: ELEV TRIM in green when value in proper range
+[OK]	- ADD:EN: INTERIOR LIGHTS Switch OFF all lights
+[OK]	- FIX:EN: Interior_Lights not updated on virtual device load
+[OK]	- FIX:EN: IAS/MACH: added C/O toggle using "sim/autopilot/knots_mach_toggle"
+[OK]	- FIX:EN: Interior_Lights STR_3 assignment : "local" was missing
+[OK]	- FIX:EN: Elev_Trim STR_9 assignment : dataref_table and index were missing
+[OK]	- FIX:EN: EFB AREA: Refined color and warning states for CHOCKS - GPU - FLIGHT LEG - FUEL TRUCK - ENTRY DOORS - STAIRS - DE-ICING - CARGO DOORS - IRS ALIGN - YAW DAMPER - FUEL PMP
+[OK]	- FIX:EN: FUEL PUMP Color Issue
+[OK]	- FIX:EN: INTERIOR LIGHTS : Quick fix in LUA file for value not displayed on init
+[OK]	- FIX:EN: INTERIOR LIGHTS : Updated CSV to use circle arrows in place of straight arrows
+[OK]	- FIX:EN: Renamed previous OVH LUA file rather dedicated to FUEL mgmt
+[OK]	- FIX:EN: FUEL TANKS QTY displays LBS or KG
+[OK]	- FIX:EN: INTERIOR LIGHTS : No more full [SOLVED] Don't move all "command_once" statements from their original location, they should be triggered at first within their own related function
+[OK]	- FIX:EN: WIPER: SPLIT L/R X-Plane Command
+[OK]	- FIX:EN: BARO (48) - CSV and LUA
+[OK]	- FIX:EN: WIN HEAT COLOR ON Status changed to Green
+[OK]	- FIX:EN: APU GEN blinking
+[OK]	- FIX:EN: SIXPACK should start or stop blinking when MASTER CAUTION is pressed. Build it on two Keys with Sixpack values
+[OK]	- FIX:EN: ELEV TRIM removed 100 ratio in LUA file and corrected CSV related NUMERIC read ratio
+[OK]	- FIX:EN: BG Keys Color 	- NAV 1 - STBY 1 - MMR 1 MODE - MMR 1 CLEAR
+									- NAV 2 - STBY 2 - MMR 2 MODE - MMR 2 CLEAR
+									- TRANPONDER - FIRE WARN - MASTER CAUTION
+									- ALL FUEL PUMPS - CROSS FEED
+									- ALL HYD PUMPS
+									- ALL FUEL QTY
+									- YOKE - REPLAY MODE - SCREENSHOT - SHOW FPS - PAUSE SIM (+ Font Color for these ones)
+
+	Previously until 1.0.6 (2022.01.03)
+
+[OK]	- ADD:EN: SIXPACK Splitted into 4 Keys handling 3 standalone LEDs each
+[OK]	- FIX:EN: FIRE WARNING : "BELL CUTOFF" font size increased
+[OK]	- FIX:EN: MASTER CAUTION : "PUSH TO RST" font size increased
+[OK]	- FIX:EN: LANDING LIGHTS : Overall behavior fixed
+[OK]	- FIX:EN: ENG 1 & ENG 2 : N2 font label and value size increased
+[OK]	- FIX:EN: PARKING BRAKE : default BG Color updated / "ON" font size increased
+[OK]	- FIX:EN: YAW DAMPER : colors refined
+[OK]	- FIX:EN: SEAT BELTS : label font size increased
+[OK]	- FIX:EN: MINUS : Font size updated
+[OK]	- FIX:EN: DEL : Font size updated / color value updated
+[OK]	- FIX:EN: INTERIOR LIGHTS : Fix to Full ON and Full OFF
+[OK]	- FIX:EN: Re-organize IRS / INTERIOR LIGHTS / WIN HEAT / BAT / SEAT BELTS
+[OK]	- FIX:EN: OPEN DOOR AND CARGO DOOR background color based on REMOVE STAIRS (properly working)
+[OK]	- FIX:EN: DOORS
+[OK]	- FIX:EN: WHEEL WELL Typo
+[OK]	- FIX:EN: PARK BRAKE Color
+[OK]	- FIX:EN: LANDING LIGHTS Missing Status
+

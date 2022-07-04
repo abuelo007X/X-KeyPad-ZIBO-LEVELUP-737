@@ -6,6 +6,11 @@ Warning ! Here, through all actions, authors are identified like this :
 
 
 
+	1.0.8.04 - Until 2022.06.15
+
+[OK]	- ADD:EN: IRS LUA File : Added IRS SET POS automatic set when displayed
+[OK]	- FIX:EN: INTERIOR LIGHTS LUA File : fixed dataref issue with LevelUP
+
 	1.0.8.03 - Until 2022.06.10
 
 [OK]	- ADD:EN: OVERHEAD - RECIRC FAN : Automatic Aircraft check to handle specific situation for the 737-600 and 737-700, with only one RECIRC FAN on the Right of TRIM AIR Key

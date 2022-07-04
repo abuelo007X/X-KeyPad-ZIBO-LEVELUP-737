@@ -14,12 +14,16 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 		local XKEYPAD_BUFFER = dataref_table("SRS/X-KeyPad/numeric_buffer")
 
+		logMsg(LOG_ID .. "Input_MMR1 | XKEYPAD_BUFFER = " .. XKEYPAD_BUFFER)
+
 		-- POSITION IN STRING
 		POS = 1
 		
 		while POS < 6 do
 		
 			DIGIT = string.sub(XKEYPAD_BUFFER[0], POS, POS)
+
+			logMsg(LOG_ID .. "Input_MMR1 | DIGIT = " .. DIGIT)
 
 			if DIGIT == "0" then
 				command_once("laminar/B738/push_button/mmr1_0")
