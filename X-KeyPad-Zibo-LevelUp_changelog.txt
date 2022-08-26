@@ -5,6 +5,30 @@ Warning ! Here, through all actions, authors are identified like this :
 ...
 
 
+KNOWN Bugs :
+
+	Radios STBY 1 & STBY 2 keys doesn't handle properly the X-Keypad Buffer entry
+
+
+	1.0.8.08 - Until 2022.08.09
+
+[OK]	- FIX:EN: GLARESHIELD & OVERHEAD - Many Keys reworked missing the new Font Colors handling starting from X-Keypad 1.5.1B2. Moved to DualColor scheme (Primary and Secondary)
+
+	1.0.8.07 - Until 2022.07.27
+
+[OK]	- FIX:EN: GLARESHIELD - 4 x SIXPACKS Keys reworked due to new Font Colors handling starting from X-Keypad 1.5.1B2. Moved to DualColor scheme (Primary and Secondary)
+
+	1.0.8.06 - Until 2022.07.04
+
+[OK]	- ADD:EN: FLIGHT - EMERGENCY DOORS Handling
+
+	1.0.8.05 - Until 2022.07.04
+
+[OK]	- FIX:EN: FLIGHT - YOKE / EFB CAPT & FO : Reworked labels and colors status
+[OK]	- FIX:EN: FLIGHT - Reworked all keys layout - New location related to logical actions order.
+[OK]	- FIX:EN: GLARESHIELD - ALIGN ANALOG HORIZ. : Enhanced color status
+[OK]	- FIX:EN: OVERHEAD - ZiboMod "Version" key label array length extract increased to handle more digits
+[OK]	- FIX:EN: OVERHEAD & GLARESHIELD - "SHIFT" key label changed to "NUMPAD SHIFT TOGGLE"
 
 	1.0.8.04 - Until 2022.06.15
 
