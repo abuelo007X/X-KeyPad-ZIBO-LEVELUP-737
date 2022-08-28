@@ -104,15 +104,12 @@ AIRSTAIRS : behavior with OPEN ENTRY
 
 	| CURRENT WIP |
 
-- FIX:EN: RADIOS - Check MMR/NAV switching
 - FIX:EN: GLARESHIELD - HDG DIFF to take in account the autopilot heading and magvar,
 									either coming from MCP heading set by MCP input dial or from FMC Heading displayed on LSKL1 : FORMULA edited
 
-
 - FIX:EN: FLIGHT - OPEN ENTRY DOOR & SET STAIR - Reworking to plan - Behavior on FWD ENTRY & STAIRS not really as expected
-- ADD:EN: STAIRS DEPLOY % Check with LEVELUP
-- ADD:EN: OVERWING EXIT DOORS
 - FIX:EN: A/P RST Color Issue when IRS aligned - Still to be checked : --> which conditions ???
+- FIX:EN: STAIRS DEPLOY % Check with LEVELUP
 
 ========================================================================================================================================================================================
 	Below we find "OK" Template between lines to copy and placed in front of ended action from the CURRENT WIP section above,
@@ -126,12 +123,22 @@ AIRSTAIRS : behavior with OPEN ENTRY
 
 ========================================================================================================================================================================================
 
-KNOWN Bugs :
+	| KNOWN Bugs |
 
-	Radios STBY 1 & STBY 2 keys doesn't handle properly the X-Keypad Buffer entry
-
+		None
 
 	| DONE |
+
+	1.0.8.10 - Until 2022.08.27
+
+[OK]	- FIX:EN: RADIOS - STBY 2 key Custom String Index changed from 6 to 5, to fix an issue, where an improper value was displayed on the key line #2, while condition = TRUE
+[OK]	- FIX:EN: RADIOS - STBY 1 & STBY 2 keys don't handle properly the X-Keypad Buffer entry - OK Fixed in 1.0.8.10
+[OK]	- FIX:EN: RADIOS - No more freezing using X-Keypad Buffer Entry on STBY 1 & STBY 2 keys
+[OK]	- FIX:EN: RADIOS - Check MMR/NAV switching
+
+	1.0.8.09 - Until 2022.08.26
+
+[OK]	- FIX:EN: INTERIOR LIGHTS : LUA script - Reworked script to fix handling of full ZiboMod and LevelUP at best - Enhanced method for dataref updating and simplified script logic
 
 	1.0.8.08 - Until 2022.08.09
 

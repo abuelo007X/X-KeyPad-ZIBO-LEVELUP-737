@@ -1,5 +1,7 @@
 -- COMMANDS INTERIOR LIGHTS
 
+-- enjxp		2022.08.26	-- Reworked script to fix handling of full ZiboMod and LevelUP at best
+--								enhanced method for dataref updating and simplified script logic
 -- enjxp		2022.06.15	-- Fixed wrong dataref issue with LevelUP
 -- enjxp		2022.06.06	-- Fixed wrong function name call
 -- enjxp		2022.01.26	-- Reworked the whole structure
@@ -11,6 +13,13 @@
 local LOG_ID = "FWL 4 XKP B737 VD : INTERIOR LIGHTS : "
 
 logMsg(LOG_ID .. "LUA | START")
+
+local unit_zibo = 1
+local unit_levelup = 2
+local unit_active = 2
+local PANEL_LIGHT_DRF_ZIBO = "laminar/B738/electric/generic_brightness"
+local PANEL_LIGHT_DRF_LEVELUP = "sim/cockpit2/switches/generic_lights_switch"
+-- local PANEL_LIGHT_DRF_LEVELUP = "sim/flightmodel2/lights/generic_lights_brightness_ratio"	-- old dataref : not able to override values
 
 if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG") or (PLANE_DESCRIP == "Boeing 737-700NG") or (PLANE_DESCRIP == "Boeing 737-800NG") or (PLANE_DESCRIP == "Boeing 737-900NG") or (PLANE_DESCRIP == "Boeing 737-900ER") then
 
@@ -42,20 +51,22 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 -- OVERHEAD DOME WHITE				: laminar/B738/lights_sw[2]  -- set using command_once
 
+	-- local PANEL_LIGHT_ZIBO = dataref_table(PANEL_LIGHT_DRF_ZIBO)
+	-- local PANEL_LIGHT_LEVELUP = dataref_table(PANEL_LIGHT_DRF_LEVELUP)
 
+	local PANEL_LIGHT_DRF = PANEL_LIGHT_DRF_LEVELUP
 
 	if (PLANE_DESCRIP == "Boeing 737-800X") then
-		-- logMsg(LOG_ID .. "INIT | ZIBOMOD")
-		local PANEL_LIGHT = dataref_table("laminar/B738/electric/generic_brightness")
-		-- local PANEL_LIGHT = dataref_table("laminar/B738/lights_sw")
-		-- local LIGHTS_SWITCHES = dataref_table("laminar/B738/lights_sw")
+		logMsg(LOG_ID .. "INIT | ZIBOMOD")
+		unit_active = unit_zibo
+		PANEL_LIGHT_DRF = PANEL_LIGHT_DRF_ZIBO
 	else
-		-- logMsg(LOG_ID .. "INIT | LEVELUP")
-		local PANEL_LIGHT = dataref_table("sim/flightmodel2/lights/generic_lights_brightness_ratio")
-		-- local LIGHTS_SWITCHES = dataref_table("sim/cockpit2/switches/generic_lights_switch")
-		-- local PANEL_LIGHT = dataref_table("sim/cockpit2/switches/generic_lights_switch")
-		-- local PANEL_LIGHT = dataref_table("laminar/B738/lights_sw")
+		logMsg(LOG_ID .. "INIT | LEVELUP")
+		unit_active = unit_levelup
+		PANEL_LIGHT_DRF = PANEL_LIGHT_DRF_LEVELUP
 	end
+
+	-- logMsg(LOG_ID .. "LOAD | PANEL_LIGHT_DRF = " .. PANEL_LIGHT_DRF)
 
 	-- logMsg(LOG_ID .. "INIT | Datarefs Others")
 
@@ -68,71 +79,88 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	-- Setting values in two steps, don't modify this structure in two steps, only customize the values if needed
 
 	local DARK			= 0															-- FULL DARK
-	local PERC_0		= 0.1														-- ALMOST DARK
-	local PERC_1		= 0.25														-- 25% BRIGHT
-	local PERC_2		= 0.33														-- 33% BRIGHT
-	local PERC_3		= 0.5														-- HALF BRIGHT
-	local PERC_4		= 0.66														-- 66% BRIGHT
-	local PERC_5		= 0.80														-- 80% BRIGHT
-	local PERC_6		= 0.90														-- 90% BRIGHT
-	local PERC_7		= 0.95														-- 95% BRIGHT
+	local PERC_1		= 0.1														-- ALMOST DARK
+	local PERC_2		= 0.25														-- 25% BRIGHT
+	local PERC_3		= 0.33														-- 33% BRIGHT
+	local PERC_4		= 0.5														-- HALF BRIGHT
+	local PERC_5		= 0.66														-- 66% BRIGHT
+	local PERC_6		= 0.80														-- 80% BRIGHT
+	local PERC_7		= 0.90														-- 90% BRIGHT
+	local PERC_8		= 0.95														-- 95% BRIGHT
 	local BRIGHT		= 1															-- BRIGHT
 
 	-- WARNING !!! Don't change the structure below, just update the values above if needed
 
 	local SET_OFF		= DARK														-- ALL OFF
-	local SET_0			= PERC_0													-- ALL PERCENT0 VALUE
-	local SET_1			= PERC_1													-- ALL PERCENT1 VALUE
-	local SET_2			= PERC_2													-- ALL PERCENT2 VALUE
-	local SET_3			= PERC_3													-- ALL PERCENT3 VALUE
-	local SET_4			= PERC_4													-- ALL PERCENT4 VALUE
-	local SET_5			= PERC_5													-- ALL PERCENT5 VALUE
-	local SET_6			= PERC_6													-- ALL PERCENT6 VALUE
-	local SET_7			= PERC_7													-- ALL PERCENT7 VALUE
+	local SET_1			= PERC_1													-- ALL PERCENT0 VALUE
+	local SET_2			= PERC_2													-- ALL PERCENT1 VALUE
+	local SET_3			= PERC_3													-- ALL PERCENT2 VALUE
+	local SET_4			= PERC_4													-- ALL PERCENT3 VALUE
+	local SET_5			= PERC_5													-- ALL PERCENT4 VALUE
+	local SET_6			= PERC_6													-- ALL PERCENT5 VALUE
+	local SET_7			= PERC_7													-- ALL PERCENT6 VALUE
+	local SET_8			= PERC_8													-- ALL PERCENT7 VALUE
 	local SET_FULL_ON	= BRIGHT													-- ALL ON
 	local SET_STR		= "OFF"
 	local LSET_NUM		= 0
-	if STR_3[0] ~= "" then
-		SET_STR = STR_3[0]
-		light_state[0] = SET_STR
-	else
-		SET_STR = "OFF"
-		light_state[0] = SET_STR
-	end
-	local LSET_SAVE = 0
-	-- STR_3[0] = "OFF"
-	STR_3[0] = SET_STR
-
+	
 	local switch_set_str = {
 		[0] = function() SET_STR = "OFF" end,
-		[1] = function() SET_STR = "SET0" end,
-		[2] = function() SET_STR = "SET1" end,
-		[3] = function() SET_STR = "SET2" end,
-		[4] = function() SET_STR = "SET3" end,
-		[5] = function() SET_STR = "SET4" end,
-		[6] = function() SET_STR = "SET5" end,
-		[7] = function() SET_STR = "SET6" end,
-		[8] = function() SET_STR = "SET7" end,
+		[1] = function() SET_STR = "SET1" end,
+		[2] = function() SET_STR = "SET2" end,
+		[3] = function() SET_STR = "SET3" end,
+		[4] = function() SET_STR = "SET4" end,
+		[5] = function() SET_STR = "SET5" end,
+		[6] = function() SET_STR = "SET6" end,
+		[7] = function() SET_STR = "SET7" end,
+		[8] = function() SET_STR = "SET8" end,
 		[9] = function() SET_STR = "FULL" end
 	}
 
 	local switch_bright = {
-		[0] = function() Lights_Off() end,
-		[1] = function() Lights_Set0() end,
-		[2] = function() Lights_Set1() end,
-		[3] = function() Lights_Set2() end,
-		[4] = function() Lights_Set3() end,
-		[5] = function() Lights_Set4() end,
-		[6] = function() Lights_Set5() end,
-		[7] = function() Lights_Set6() end,
-		[8] = function() Lights_Set7() end,
-		[9] = function() Lights_FullOn() end
+		[0] = function() pr_lights_setoff() end,
+		[1] = function() pr_lights_set1() end,
+		[2] = function() pr_lights_set2() end,
+		[3] = function() pr_lights_set3() end,
+		[4] = function() pr_lights_set4() end,
+		[5] = function() pr_lights_set5() end,
+		[6] = function() pr_lights_set6() end,
+		[7] = function() pr_lights_set7() end,
+		[8] = function() pr_lights_set8() end,
+		[9] = function() pr_lights_setfullon() end
 	}
+
+	local switch_set_num = {
+		["OFF"]		= function() LSET_NUM = 0 end,
+		["SET1"]	= function() LSET_NUM = 1 end,
+		["SET2"]	= function() LSET_NUM = 2 end,
+		["SET3"]	= function() LSET_NUM = 3 end,
+		["SET4"]	= function() LSET_NUM = 4 end,
+		["SET5"]	= function() LSET_NUM = 5 end,
+		["SET6"]	= function() LSET_NUM = 6 end,
+		["SET7"]	= function() LSET_NUM = 7 end,
+		["SET8"]	= function() LSET_NUM = 8 end,
+		["FULL"]	= function() LSET_NUM = 9 end
+	}
+
+	if STR_3[0] ~= "" then
+		SET_STR = STR_3[0]
+		light_state[0] = SET_STR
+		local f1 = switch_set_num[SET_STR]
+		if(f1) then
+			f1()
+		else
+		end
+	else
+		SET_STR = "OFF"
+		light_state[0] = SET_STR
+	end
+	local LSET_SAVE = -1
 
 	-- logMsg(LOG_ID .. "INIT | END")
 
 	-- DOME DIM
-	function Dome_Dim()
+	function pr_lights_setdomedim()
 		-- logMsg(LOG_ID .. "DOME DIM | START")
 		command_once("laminar/B738/toggle_switch/cockpit_dome_up")		-- DOME LIGHT DIM SEQUENCE 2 STEPS
 		command_once("laminar/B738/toggle_switch/cockpit_dome_up")
@@ -140,7 +168,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	end
 
 	-- DOME OFF
-	function Dome_Off()
+	function pr_lights_setdomeoff()
 		-- logMsg(LOG_ID .. "DOME OFF | START")
 		command_once("laminar/B738/toggle_switch/cockpit_dome_up")		-- DOME LIGHT OFF SEQUENCE 3 STEPS
 		command_once("laminar/B738/toggle_switch/cockpit_dome_up")
@@ -149,7 +177,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	end
 
 	-- DOME BRIGHT
-	function Dome_Bright()
+	function pr_lights_setdomebright()
 		-- logMsg(LOG_ID .. "DOME BRIGHT | START")
 		command_once("laminar/B738/toggle_switch/cockpit_dome_dn")		-- DOME LIGHT BRIGHT SEQUENCE 2 STEPS
 		command_once("laminar/B738/toggle_switch/cockpit_dome_dn")
@@ -160,9 +188,9 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		-- STR_3[0] = SET_STR
 		STR_3[0] = SET_STR
 		if LSET_NUM ~= LSET_SAVE then
-			local f = switch_set_str[LSET_NUM]
-			if(f) then
-				f()
+			local f2 = switch_set_str[LSET_NUM]
+			if(f2) then
+				f2()
 			else
 			end
 			STR_3[0] = SET_STR
@@ -171,220 +199,150 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		LSET_SAVE = LSET_NUM
 	end
 
+	pr_calc_interior_lights()
+
+	function pr_panels_set(param)
+		-- if unit_active == unit_zibo then
+		-- elseif unit_active == unit_levelup then
+		-- end
+		logMsg(LOG_ID .. "PNL SET | PARAM = " .. param)
+		logMsg(LOG_ID .. "LOAD | PANEL_LIGHT_DRF = " .. PANEL_LIGHT_DRF)
+		set_array(PANEL_LIGHT_DRF,6,param)		-- FORWARD PANEL FLOOD
+		set_array(PANEL_LIGHT_DRF,7,param)		-- GLARESHIELD FLOOD
+		set_array(PANEL_LIGHT_DRF,8,param)		-- PEDESTAL FLOOD
+		set_array(PANEL_LIGHT_DRF,10,param)		-- CAPTAIN CHART LIGHT)
+		set_array(PANEL_LIGHT_DRF,11,param)		-- FIRST OFFICER CHART LIGHT)
+		set_array(PANEL_LIGHT_DRF,12,param)		-- CIRCUIT BREAKER FLOOD)
+		PANEL_BRIGHT[0]		= param				-- CAPTAIN MAIN PANEL BRIGTHNESS
+		PANEL_BRIGHT[1]		= param				-- FIRST OFFICER MAIN PANEL BRIGTHNESS
+		PANEL_BRIGHT[2]		= param				-- OVERHEAD PANEL BRIGTHNESS
+		PANEL_BRIGHT[3]		= param				-- PEDESTAL PANEL BRIGTHNESS
+	end
+
 	-- OFF
-	function Lights_Off()
+	function pr_lights_setoff()
 		LSET_NUM = 0
+
+		logMsg(LOG_ID .. "SETOFF | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Off()
-		PANEL_BRIGHT[0]		= SET_OFF		-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_OFF		-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_OFF		-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_OFF		-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_OFF		-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_OFF		-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_OFF		-- PEDESTAL FLOOD
+		pr_panels_set(SET_OFF)
+		pr_lights_setdomeoff()
 		-- LIGHTS_SWITCHES[6]	= SET_OFF		-- FORWARD PANEL FLOOD
 		-- LIGHTS_SWITCHES[7]	= SET_OFF		-- GLARESHIELD FLOOD
 		-- LIGHTS_SWITCHES[8]	= SET_OFF		-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_OFF		-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_OFF		-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_OFF		-- CIRCUIT BREAKER FLOOD
-	end	
-
-	-- DIM
-	function Lights_Set0()
-		LSET_NUM = 1
-		pr_calc_interior_lights()
-		Dome_Off()
-		PANEL_BRIGHT[0]		= SET_0			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_0			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_0			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_0			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_0			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_0			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_0			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_0			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_0			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_0			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_0			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_0			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_0			-- CIRCUIT BREAKER FLOOD
 	end	
 
 	-- Set #1
-	function Lights_Set1()
-		LSET_NUM = 2
+	function pr_lights_set1()
+		LSET_NUM = 1
+
+		logMsg(LOG_ID .. "SET1 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Off()
-		PANEL_BRIGHT[0]		= SET_1			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_1			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_1			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_1			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_1			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_1			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_1			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_1			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_1			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_1			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_1			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_1			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_1			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_1)
+		pr_lights_setdomeoff()
 	end	
 
 	-- Set #2
-	function Lights_Set2()
-		LSET_NUM = 3
+	function pr_lights_set2()
+		LSET_NUM = 2
+
+		logMsg(LOG_ID .. "SET2 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Dim()
-		PANEL_BRIGHT[0]		= SET_2			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_2			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_2			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_2			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_2			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_2			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_2			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_2			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_2			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_2			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_2			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_2			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_2			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_2)
+		pr_lights_setdomeoff()
 	end	
 
 	-- Set #3
-	function Lights_Set3()
-		LSET_NUM = 4
+	function pr_lights_set3()
+		LSET_NUM = 3
+
+		logMsg(LOG_ID .. "SET3 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Dim()
-		PANEL_BRIGHT[0]		= SET_3			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_3			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_3			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_3			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_3			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_3			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_3			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_3			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_3			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_3			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_3			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_3			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_3			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_3)
+		pr_lights_setdomedim()
 	end	
 
 	-- Set #4
-	function Lights_Set4()
-		LSET_NUM = 5
+	function pr_lights_set4()
+		LSET_NUM = 4
+
+		logMsg(LOG_ID .. "SET4 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Bright()
-		PANEL_BRIGHT[0]		= SET_4			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_4			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_4			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_4			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_4			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_4			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_4			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_4			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_4			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_4			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_4			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_4			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_4			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_4)
+		pr_lights_setdomedim()
 	end	
 
 	-- Set #5
-	function Lights_Set5()
-		LSET_NUM = 6
+	function pr_lights_set5()
+		LSET_NUM = 5
+
+		logMsg(LOG_ID .. "SET5 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Bright()
-		PANEL_BRIGHT[0]		= SET_5			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_5			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_5			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_5			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_5			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_5			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_5			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_5			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_5			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_5			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_5			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_5			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_5			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_5)
+		pr_lights_setdomebright()
 	end	
 
 	-- Set #6
-	function Lights_Set6()
-		LSET_NUM = 7
+	function pr_lights_set6()
+		LSET_NUM = 6
+
+		logMsg(LOG_ID .. "SET6 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Bright()
-		PANEL_BRIGHT[0]		= SET_6			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_6			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_6			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_6			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_6			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_6			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_6			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_6			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_6			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_6			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_6			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_6			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_6			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_6)
+		pr_lights_setdomebright()
 	end	
 
 	-- Set #7
-	function Lights_Set7()
-		LSET_NUM = 8
+	function pr_lights_set7()
+		LSET_NUM = 7
+
+		logMsg(LOG_ID .. "SET7 | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Bright()
-		PANEL_BRIGHT[0]		= SET_7			-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_7			-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_7			-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_7			-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_7			-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_7			-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_7			-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_7			-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_7			-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_7			-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_7			-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_7			-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_7			-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_7)
+		pr_lights_setdomebright()
+	end	
+
+	-- Set #8
+	function pr_lights_set8()
+		LSET_NUM = 8
+
+		logMsg(LOG_ID .. "SET8 | LSET_NUM = " .. LSET_NUM)
+
+		pr_calc_interior_lights()
+		pr_panels_set(SET_8)
+		pr_lights_setdomebright()
 	end	
 
 	-- FULLON
-	function Lights_FullOn()
-
-		logMsg(LOG_ID .. "DEC | LSET_NUM = " .. LSET_NUM)
-
+	function pr_lights_setfullon()
 		LSET_NUM = 9
+
+		logMsg(LOG_ID .. "SETFULLON | LSET_NUM = " .. LSET_NUM)
+
 		pr_calc_interior_lights()
-		Dome_Bright()
-		PANEL_BRIGHT[0]		= SET_FULL_ON	-- CAPTAIN MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[1]		= SET_FULL_ON	-- FIRST OFFICER MAIN PANEL BRIGTHNESS
-		PANEL_BRIGHT[2]		= SET_FULL_ON	-- OVERHEAD PANEL BRIGTHNESS
-		PANEL_BRIGHT[3]		= SET_FULL_ON	-- PEDESTAL PANEL BRIGTHNESS
-		PANEL_LIGHT[6]	= SET_FULL_ON	-- FORWARD PANEL FLOOD
-		PANEL_LIGHT[7]	= SET_FULL_ON	-- GLARESHIELD FLOOD
-		PANEL_LIGHT[8]	= SET_FULL_ON	-- PEDESTAL FLOOD
-		-- LIGHTS_SWITCHES[6]	= SET_FULL_ON	-- FORWARD PANEL FLOOD
-		-- LIGHTS_SWITCHES[7]	= SET_FULL_ON	-- GLARESHIELD FLOOD
-		-- LIGHTS_SWITCHES[8]	= SET_FULL_ON	-- PEDESTAL FLOOD
-		PANEL_LIGHT[10]	= SET_FULL_ON	-- CAPTAIN CHART LIGHT
-		PANEL_LIGHT[11]	= SET_FULL_ON	-- FIRST OFFICER CHART LIGHT
-		PANEL_LIGHT[12]	= SET_FULL_ON	-- CIRCUIT BREAKER FLOOD
+		pr_panels_set(SET_FULL_ON)
+		pr_lights_setdomebright()
 	end
 
 	-- Set Light
-	function Lights_Set()
-		local f = switch_bright[LSET_NUM]
-		if(f) then
-			f()
+	function pr_lights_set()
+		local f3 = switch_bright[LSET_NUM]
+		if(f3) then
+			f3()
 		else
 		end
 	end
 
 	-- Decrease Light
-	function Lights_Decrease()
+	function pr_lights_decrease()
 		LSET_NUM = LSET_NUM - 1
 		if LSET_NUM < 0 then
 			LSET_NUM = 0
@@ -392,11 +350,11 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 		logMsg(LOG_ID .. "DEC | LSET_NUM = " .. LSET_NUM)
 
-		Lights_Set()
+		pr_lights_set()
 	end
 
 	-- Increase Light
-	function Lights_Increase()
+	function pr_lights_increase()
 		LSET_NUM = LSET_NUM + 1
 		if LSET_NUM > 9 then
 			LSET_NUM = 9
@@ -404,27 +362,29 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 		logMsg(LOG_ID .. "INC | LSET_NUM = " .. LSET_NUM)
 
-		Lights_Set()
+		pr_lights_set()
 	end
 
 	-- logMsg(LOG_ID .. "INIT | Commands Start")
 
-	create_command("zibo/int_bright_off",	"L1 - cockpit lights ALL OFF","Lights_Off()","","")	-- OFF
-	create_command("zibo/int_bright_Set0",	"L2 - cockpit lights ALL Set0","Lights_Set0()","","")	-- Set0
-	create_command("zibo/int_bright_Set1",	"L3 - cockpit lights ALL Set1","Lights_Set1()","","")	-- Set1
-	create_command("zibo/int_bright_Set2",	"L4 - cockpit lights ALL Set2","Lights_Set2()","","")	-- Set2
-	create_command("zibo/int_bright_Set3",	"L5 - cockpit lights ALL Set3","Lights_Set3()","","")	-- Set3
-	create_command("zibo/int_bright_Set4",	"L6 - cockpit lights ALL Set4","Lights_Set4()","","")	-- Set4
-	create_command("zibo/int_bright_Set5",	"L7 - cockpit lights ALL Set5","Lights_Set5()","","")	-- Set5
-	create_command("zibo/int_bright_Set6",	"L8 - cockpit lights ALL Set6","Lights_Set6()","","")	-- Set6
-	create_command("zibo/int_bright_Set7",	"L9 - cockpit lights ALL Set7","Lights_Set7()","","")	-- Set7
-	create_command("zibo/int_bright_on",	"LA - cockpit lights ALL ON","Lights_FullOn()","","")	-- FULL ON
+	create_command("zibo/int_bright_off",	"L1 - cockpit lights ALL OFF","pr_lights_setoff()","","")		-- OFF
+	create_command("zibo/int_bright_Set1",	"L2 - cockpit lights ALL Set1","pr_lights_set1()","","")	-- Set1
+	create_command("zibo/int_bright_Set2",	"L3 - cockpit lights ALL Set2","pr_lights_set2()","","")	-- Set2
+	create_command("zibo/int_bright_Set3",	"L4 - cockpit lights ALL Set3","pr_lights_set3()","","")	-- Set3
+	create_command("zibo/int_bright_Set4",	"L5 - cockpit lights ALL Set4","pr_lights_set4()","","")	-- Set4
+	create_command("zibo/int_bright_Set5",	"L6 - cockpit lights ALL Set5","pr_lights_set5()","","")	-- Set5
+	create_command("zibo/int_bright_Set6",	"L7 - cockpit lights ALL Set6","pr_lights_set6()","","")	-- Set6
+	create_command("zibo/int_bright_Set7",	"L8 - cockpit lights ALL Set7","pr_lights_set7()","","")	-- Set7
+	create_command("zibo/int_bright_Set8",	"L9 - cockpit lights ALL Set8","pr_lights_set8()","","")	-- Set8
+	create_command("zibo/int_bright_on",	"LA - cockpit lights ALL ON","pr_lights_setfullon()","","")	-- FULL ON
 
-	create_command("zibo/int_bright_dec",	"L_dec - cockpit lights Decrease","Lights_Decrease()","","")	-- Decrease Light
-	create_command("zibo/int_bright_inc",	"L_inc - cockpit lights Increase","Lights_Increase()","","")	-- Increase Light
+	create_command("zibo/int_bright_dec",	"L_dec - cockpit lights Decrease","pr_lights_decrease()","","")	-- Decrease Light
+	create_command("zibo/int_bright_inc",	"L_inc - cockpit lights Increase","pr_lights_increase()","","")	-- Increase Light
+
+	pr_lights_set()
 
 	-- logMsg(LOG_ID .. "INIT | Commands End")
 
-	do_every_frame("pr_calc_interior_lights()")
+	-- do_often("pr_calc_interior_lights()")
 
 end

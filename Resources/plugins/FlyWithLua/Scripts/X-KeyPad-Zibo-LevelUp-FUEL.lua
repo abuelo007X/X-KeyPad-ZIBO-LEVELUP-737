@@ -185,6 +185,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 	-- logMsg(LOG_ID .. "LUA | PR_CALC Before EVERY FRAME")
 
-	do_every_frame("pr_calc_fuel()")
+	do_often("pr_calc_fuel()")
+	-- do_every_frame("pr_calc_fuel()")
 
 end

@@ -63,6 +63,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 	end
 
-	do_every_frame("pr_calc_sixpack()")
+	do_often("pr_calc_sixpack()")
+	-- do_every_frame("pr_calc_sixpack()")
 
 end

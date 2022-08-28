@@ -25,6 +25,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		STR_8[0] = string.format("%02.1f",N1_ENG[1])
 	end
 
-	do_every_frame("pr_calc_eng_n1()")
+	do_often("pr_calc_eng_n1()")
+	-- do_every_frame("pr_calc_eng_n1()")
 
 end

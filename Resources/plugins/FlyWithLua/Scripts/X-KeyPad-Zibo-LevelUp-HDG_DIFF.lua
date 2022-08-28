@@ -55,8 +55,8 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 	end -- end custom string check
 
-	-- Update them every frame
-	do_every_frame("pr_calc_hdg_diff()")
+	do_often("pr_calc_hdg_diff()")
+	-- do_every_frame("pr_calc_hdg_diff()")
 
 end	-- end aircraft check
 		

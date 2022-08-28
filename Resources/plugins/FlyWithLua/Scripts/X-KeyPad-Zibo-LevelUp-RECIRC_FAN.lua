@@ -62,6 +62,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 		UpdateValue()
 	end
 
-	do_every_frame("pr_calc_recirc()")
+	do_often("pr_calc_recirc()")
+	-- do_every_frame("pr_calc_recirc()")
 
 end

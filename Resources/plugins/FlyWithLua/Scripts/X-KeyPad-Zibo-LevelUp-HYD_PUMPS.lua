@@ -103,6 +103,7 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 
 	end
 
-	do_every_frame("pr_calc_hyd_pumps()")
+	do_often("pr_calc_hyd_pumps()")
+	-- do_every_frame("pr_calc_hyd_pumps()")
 
 end
