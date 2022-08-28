@@ -22,56 +22,45 @@ if (PLANE_DESCRIP == "Boeing 737-800X") or (PLANE_DESCRIP == "Boeing 737-600NG")
 	local ZIBO_BARO_HPA			= dataref_table("laminar/B738/EFIS_control/capt/baro_in_hpa")	-- For HPA value
 	local ZIBO_BARO				= dataref_table("laminar/B738/EFIS/baro_sel_in_hg_pilot")		-- For BARO value
 
-	STR_6[0] = ZIBO_BARO[0]
+	STR_6[0] = " "
 	F_BARO = 0
 	STR_BARO_LAST = -1
 	SHOW_STD_LAST = -1
 	ZIBO_BARO_HPA_LAST = -1
+	LAST_CONFIG_LOAD_COUNTER = CONFIG_LOAD_COUNTER[0]
 
-	-- Keep track of the previous contents of the datarefs so we only update the strings if they change.
-	local last_config_load_counter = -1
-
-	function RefreshString()
-		STR_BARO_LAST = -1
-		STR_6[0] = string.format("%.0f",F_BARO)
-	end
-
-	function UpdateString()	-- Update custom strings if necessary
-		-- Refresh if a new configuration has been loaded since they get cleared on reload by X-KeyPad
-		if(last_config_load_counter ~= CONFIG_LOAD_COUNTER[0]) then
-			RefreshString()
-			last_config_load_counter = CONFIG_LOAD_COUNTER[0]
+	function UpdateBAROString()	-- Update custom strings if necessary
+		if(ZIBO_BARO_HPA[0] == 1) then
+			STR_6[0] = string.format("%.0f",F_BARO)
+		else
+			STR_6[0] = string.format("%.2f",F_BARO)
 		end
 	end
 
 	function pr_calc_baro()
 		-- If value changed since last input
-		if (STR_BARO_LAST ~= F_BARO) or (SHOW_STD_LAST ~= SHOW_STD) or (ZIBO_BARO_HPA_LAST ~= ZIBO_BARO_HPA[0]) then
+		if (STR_BARO_LAST ~= ZIBO_BARO[0]) or (SHOW_STD_LAST ~= SHOW_STD[0]) or (ZIBO_BARO_HPA_LAST ~= ZIBO_BARO_HPA[0]) or (LAST_CONFIG_LOAD_COUNTER ~= CONFIG_LOAD_COUNTER[0]) then
 			-- If Hecto Pascal (HPA) is selected
 			if (ZIBO_BARO_HPA[0] == 1) then
 				F_BARO = ZIBO_BARO[0] * 33.863886666667
 			-- If Inch of Mecury (IN) is selected
-			elseif (ZIBO_BARO[0] >= 2900 and ZIBO_BARO[0] <= 3100) then -- Lowest IN is 29.00 and Highest is 31.00
+			else
 				F_BARO = ZIBO_BARO[0]
 			end
 			-- Place New Input Value in Last Input Value
-			STR_BARO_LAST = F_BARO
+			STR_BARO_LAST = ZIBO_BARO[0]
 			SHOW_STD_LAST = SHOW_STD[0]
 			ZIBO_BARO_HPA_LAST = ZIBO_BARO_HPA[0]
+			LAST_CONFIG_LOAD_COUNTER = CONFIG_LOAD_COUNTER[0]
+			
+			if (SHOW_STD[0] == 1) then
+				STR_6[0] = " "
+			else
+				UpdateBAROString()
+			end
 		end
-
-		-- If STD set string to 29.92
-		if (SHOW_STD[0] == 0) then
-			-- Update String
-			RefreshString()
-			-- UpdateString()
-		else
-			STR_6[0] = " "
-		end
-		UpdateString()
 	end
 
 	do_often("pr_calc_baro()")
 	-- do_every_frame("pr_calc_baro()")
-
 end
